@@ -24,14 +24,14 @@ myAxios.interceptors.request.use(
 // 添加响应拦截器
 myAxios.interceptors.response.use(
   function (response) {
-    const loginUserStore = useLoginStore();
+    const loginUserStore = useLoginStore()
     // 请求日志
     console.log('我要接收后台响应了', response)
     const { data } = response
-    console.log('亲贵',loginUserStore.loginUser);
+    console.log('亲贵', loginUserStore.loginUser)
     if (!loginUserStore.loginUser.id && !window.location.pathname.includes('/user/login')) {
       message.warning('请先登录')
-      console.log('亲贵2',loginUserStore.loginUser);
+      console.log('亲贵2', loginUserStore.loginUser)
       window.location.href = `/user/login?redirect=${window.location.href}`
     }
 

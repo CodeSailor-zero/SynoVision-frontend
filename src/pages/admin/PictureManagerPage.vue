@@ -12,6 +12,15 @@
       <a-form-item name="pictureName" label="图片简介">
         <a-input v-model:value="searchParams.introduction" placeholder="图片简介"/>
       </a-form-item>
+      <a-form-item name="reviewStatus" label="审核状态">
+        <a-select
+          style="min-width: 180px"
+          v-model:value="searchParams.reviewStatus"
+          placeholder="请选择审核状态"
+          :options="PIC_REVIEW_STATUS_OPTIONS"
+          allow-clear
+        />
+      </a-form-item>
       <a-form-item>
         <a-button type="primary" html-type="submit">搜索</a-button>
       </a-form-item>
@@ -45,10 +54,20 @@
         </template>
         <template v-else-if="column.key === 'pictureInfo'">
           <a-space wrap>
-            <a-tag>图片体积: {{ record.picSize }}</a-tag>
+            <a-tag>图片体积: {{ convertBytes(record.picSize) }}</a-tag>
             <a-tag>图片宽度：{{ record.picWidth }}</a-tag>
             <a-tag>图片高度：{{ record.picHeight }}</a-tag>
             <a-tag>宽高比：{{ record.picScale }}</a-tag>
+          </a-space>
+        </template>
+        <template v-else-if="column.key === 'reviewInfo'">
+          <a-space wrap>
+            <a-tag>审核状态: {{ PIC_REVIEW_STATUS_MAP[record.reviewStatus] }}</a-tag>
+            <a-tag>审核信息：{{ record.reviewMessage }}</a-tag>
+            <a-tag>审核人：{{ record.reviewId }}</a-tag>
+            <a-tag v-if="record.reviewTime">
+              审核时间：{{ dayjs(record.reviewTime).format("YYYY-MM-DD HH:mm:ss") }}
+            </a-tag>
           </a-space>
         </template>
         <template v-else-if="column.key === 'userId'">
@@ -59,6 +78,21 @@
         </template>
         <template v-else-if="column.key === 'action'">
           <a-space wrap>
+            <a-button
+              v-if="record.reviewStatus !== PIC_REVIEW_STATUS_ENUM.PASS"
+              type="primary"
+              @click="handelReview(record,PIC_REVIEW_STATUS_ENUM.PASS)"
+            >
+              过审
+            </a-button>
+            <a-button
+              v-if="record.reviewStatus !== PIC_REVIEW_STATUS_ENUM.REJECT"
+              type="primary"
+              danger
+              @click="handelReview(record,PIC_REVIEW_STATUS_ENUM.REJECT)"
+            >
+              拒绝
+            </a-button>
             <a-button type="primary" :href="`/picture/add?id=${record.id}`" target="_blank">编辑</a-button>
             <a-button type="primary" danger @click="doDeletePicture(record.id)">删除</a-button>
           </a-space>
@@ -71,7 +105,9 @@
 import {computed, onMounted, reactive, ref} from "vue";
 import {message} from "ant-design-vue";
 import dayjs from "dayjs";
-import {deletePictureUsingPost, listPictureUsingPost} from "@/api/pictureController";
+import {deletePictureUsingPost, doPictureReviewUsingPost, listPictureUsingPost} from "@/api/pictureController";
+import {PIC_REVIEW_STATUS_ENUM, PIC_REVIEW_STATUS_MAP, PIC_REVIEW_STATUS_OPTIONS} from "../../constant/picture";
+import {convertBytes} from "@/util";
 
 const columns = [
   {
@@ -105,9 +141,14 @@ const columns = [
     dataIndex: 'pictureInfo',
   },
   {
-    title: '用户角色',
+    title: '创建图片用户id',
     key: 'userId',
     dataIndex: 'userId',
+  },
+  {
+    title: '审核信息',
+    key: 'reviewInfo',
+    dataIndex: 'reviewInfo',
   },
   {
     title: '创建时间',
@@ -180,6 +221,21 @@ const doDeletePicture = async (id: number) => {
     await fetchData();
   } else {
     message.error('删除图片失败', res.message);
+  }
+}
+
+const handelReview = async (picture: API.Picture,reviewStatus) => {
+  const reviewMessage = reviewStatus === PIC_REVIEW_STATUS_ENUM.PASS ? "管理员手动通过" : "管理员手动拒绝";
+  const res = await doPictureReviewUsingPost({
+    id: picture.id,
+    reviewStatus: reviewStatus,
+    reviewMessage: reviewMessage
+  });
+  if (res.code === 0) {
+    message.success('审核图片成功');
+    await fetchData();
+  } else {
+    message.error('审核图片失败', res.message);
   }
 }
 </script>

@@ -52,13 +52,19 @@
          {{ record.tagCount }}
         </template>
         <template v-else-if="column.key === 'createTime'">
-          {{ dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+          <div v-if="record.createTime">
+            {{ dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+          </div>
         </template>
         <template v-else-if="column.key === 'editTime'">
-          {{ dayjs(record.editTime).format("YYYY-MM-DD HH:mm:ss") }}
+          <div v-if="record.editTime">
+            {{ dayjs(record.editTime).format("YYYY-MM-DD HH:mm:ss") }}
+          </div>
         </template>
         <template v-else-if="column.key === 'updateTime'">
-          {{ dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
+          <div v-if="record.updateTime">
+            {{ dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
+          </div>
         </template>
         <template v-else-if="column.key === 'action'">
           <a-space wrap>
@@ -76,7 +82,6 @@ import {message} from "ant-design-vue";
 import dayjs from "dayjs";
 import {useLoginStore} from "@/stores/userLoginUserStore";
 import {deleteTagUsingPost, listTagByPageUsingPost} from "@/api/tagController";
-import router from "@/router";
 
 const columns = [
   {

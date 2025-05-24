@@ -92,6 +92,21 @@ export async function listPictureVoUsingPost(
   })
 }
 
+/** doPictureReview POST /SynoVision/picture/review */
+export async function doPictureReviewUsingPost(
+  body: API.PictureReviewRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseBoolean_>('/SynoVision/picture/review', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
 /** getTagCategory GET /SynoVision/picture/tag_category */
 export async function getTagCategoryUsingGet(options?: { [key: string]: any }) {
   return request<API.BaseResponsePictureTagCategeoy_>('/SynoVision/picture/tag_category', {

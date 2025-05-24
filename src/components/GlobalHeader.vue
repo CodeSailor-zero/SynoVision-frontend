@@ -17,8 +17,10 @@
         <div v-if="loginUserStore.loginUser.id">
           <a-dropdown>
             <a-space>
-              <a-avatar :src="loginUserStore.loginUser.userAvatar"/>
-              {{ loginUserStore.loginUser.username ?? '无名' }}
+              <div class="user-name">
+                <a-avatar :src="loginUserStore.loginUser.userAvatar"/>
+                {{ loginUserStore.loginUser.userName ?? '无名' }}
+              </div>
             </a-space>
             <template #overlay>
               <a-menu>
@@ -145,5 +147,12 @@ const doUserLoginOut = async () => {
 .logo {
   height: 48px;
 
+}
+.user-name {
+  display: inline-block;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

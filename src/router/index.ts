@@ -8,7 +8,7 @@ import PictureAddPage from '@/pages/picture/PictureAddPage.vue'
 import PictureManagerPage from '@/pages/admin/PictureManagerPage.vue'
 import PictureDetailPage from '@/pages/picture/PictureDetailPage.vue'
 import TagManagerPage from '@/pages/admin/TagManagerPage.vue'
-import TagAddPage from "@/pages/tag/TagAddPage.vue";
+import TagAddPage from '@/pages/tag/TagAddPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
