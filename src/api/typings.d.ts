@@ -1,0 +1,346 @@
+declare namespace API {
+  type BaseResponseBoolean_ = {
+    code?: number
+    data?: boolean
+    message?: string
+  }
+
+  type BaseResponseLoginUserVo_ = {
+    code?: number
+    data?: LoginUserVo
+    message?: string
+  }
+
+  type BaseResponseLong_ = {
+    code?: number
+    data?: number
+    message?: string
+  }
+
+  type BaseResponsePagePicture_ = {
+    code?: number
+    data?: PagePicture_
+    message?: string
+  }
+
+  type BaseResponsePagePictureVo_ = {
+    code?: number
+    data?: PagePictureVo_
+    message?: string
+  }
+
+  type BaseResponsePageTag_ = {
+    code?: number
+    data?: PageTag_
+    message?: string
+  }
+
+  type BaseResponsePageUserVo_ = {
+    code?: number
+    data?: PageUserVo_
+    message?: string
+  }
+
+  type BaseResponsePicture_ = {
+    code?: number
+    data?: Picture
+    message?: string
+  }
+
+  type BaseResponsePictureTagCategeoy_ = {
+    code?: number
+    data?: PictureTagCategeoy
+    message?: string
+  }
+
+  type BaseResponsePictureVo_ = {
+    code?: number
+    data?: PictureVo
+    message?: string
+  }
+
+  type BaseResponseString_ = {
+    code?: number
+    data?: string
+    message?: string
+  }
+
+  type BaseResponseUser_ = {
+    code?: number
+    data?: User
+    message?: string
+  }
+
+  type BaseResponseUserVo_ = {
+    code?: number
+    data?: UserVo
+    message?: string
+  }
+
+  type DeleteRequest = {
+    id?: number
+  }
+
+  type deleteUserByIdUsingGETParams = {
+    /** id */
+    id: number
+  }
+
+  type getPictureUsingGETParams = {
+    /** id */
+    id?: number
+  }
+
+  type getPictureVoUsingGETParams = {
+    /** id */
+    id?: number
+  }
+
+  type getUserByIdUsingGETParams = {
+    /** id */
+    id: number
+  }
+
+  type getUserVoByIdUsingGETParams = {
+    /** id */
+    id: number
+  }
+
+  type LoginUserVo = {
+    createTime?: string
+    editTime?: string
+    id?: number
+    updateTime?: string
+    userAccount?: string
+    userAvatar?: string
+    userName?: string
+    userPassword?: string
+    userProfile?: string
+    userRole?: string
+  }
+
+  type PagePicture_ = {
+    current?: number
+    pages?: number
+    records?: Picture[]
+    size?: number
+    total?: number
+  }
+
+  type PagePictureVo_ = {
+    current?: number
+    pages?: number
+    records?: PictureVo[]
+    size?: number
+    total?: number
+  }
+
+  type PageTag_ = {
+    current?: number
+    pages?: number
+    records?: Tag[]
+    size?: number
+    total?: number
+  }
+
+  type PageUserVo_ = {
+    current?: number
+    pages?: number
+    records?: UserVo[]
+    size?: number
+    total?: number
+  }
+
+  type Picture = {
+    category?: string
+    createTime?: string
+    editTime?: string
+    id?: number
+    introduction?: string
+    isDelete?: number
+    name?: string
+    picFormat?: string
+    picHeight?: number
+    picScale?: number
+    picSize?: number
+    picWidth?: number
+    tags?: string
+    updateTime?: string
+    url?: string
+    userId?: number
+  }
+
+  type PictureEditRequest = {
+    category?: string
+    id?: number
+    introduction?: string
+    name?: string
+    tags?: string[]
+  }
+
+  type PictureQueryRequest = {
+    category?: string
+    current?: number
+    id?: number
+    introduction?: string
+    name?: string
+    pageSize?: number
+    picFormat?: string
+    picHeight?: number
+    picScale?: number
+    picSize?: number
+    picWidth?: number
+    searchText?: string
+    sortField?: string
+    sortOrder?: string
+    tags?: string[]
+    userId?: number
+  }
+
+  type PictureTagCategeoy = {
+    categeoyList?: string[]
+    tagList?: string[]
+  }
+
+  type PictureUpdateRequest = {
+    category?: string
+    id?: number
+    introduction?: string
+    name?: string
+    tags?: string[]
+  }
+
+  type PictureVo = {
+    category?: string
+    createTime?: string
+    editTime?: string
+    id?: number
+    introduction?: string
+    name?: string
+    picFormat?: string
+    picHeight?: number
+    picSize?: number
+    picWidth?: number
+    tagList?: string[]
+    updateTime?: string
+    url?: string
+    userId?: number
+    userVo?: UserVo
+  }
+
+  type Tag = {
+    createId?: number
+    createTime?: string
+    editTime?: string
+    id?: number
+    isDelete?: number
+    tagCount?: number
+    tagName?: string
+    tagType?: string
+    updateTime?: string
+    userIds?: string
+  }
+
+  type TagAddRequest = {
+    tagName?: string
+    tagType?: string
+  }
+
+  type TagQueryRequest = {
+    createId?: number
+    current?: number
+    id?: number
+    pageSize?: number
+    searchText?: string
+    sortField?: string
+    sortOrder?: string
+    tagCount?: number
+    tagName?: string
+    tagType?: string
+    userIds?: string[]
+  }
+
+  type TagUpdateRequest = {
+    editTime?: string
+    id?: number
+    tagCount?: number
+    tagName?: string
+    tagType?: string
+    userIds?: string[]
+  }
+
+  type testDownloadUsingPOSTParams = {
+    /** filePath */
+    filePath?: string
+  }
+
+  type uploadUsingPOSTParams = {
+    id?: number
+  }
+
+  type User = {
+    createTime?: string
+    editTime?: string
+    id?: number
+    isDelete?: number
+    updateTime?: string
+    userAccount?: string
+    userAvatar?: string
+    userName?: string
+    userPassword?: string
+    userProfile?: string
+    userRole?: string
+  }
+
+  type UserAddRequest = {
+    userAccount?: string
+    userAvatar?: string
+    userName?: string
+    userProfile?: string
+    userRole?: string
+  }
+
+  type UserLoginRequest = {
+    userAccount?: string
+    userPassword?: string
+  }
+
+  type UserQueryRequest = {
+    current?: number
+    id?: number
+    pageSize?: number
+    sortField?: string
+    sortOrder?: string
+    userAccount?: string
+    userAvatar?: string
+    userName?: string
+    userProfile?: string
+    userRole?: string
+  }
+
+  type UserRegisterRequest = {
+    checkPassword?: string
+    userAccount?: string
+    userPassword?: string
+  }
+
+  type UserUpdateRequest = {
+    id?: number
+    userAccount?: string
+    userAvatar?: string
+    userName?: string
+    userProfile?: string
+    userRole?: string
+  }
+
+  type UserVo = {
+    createTime?: string
+    id?: number
+    userAccount?: string
+    userAvatar?: string
+    userName?: string
+    userPassword?: string
+    userProfile?: string
+    userRole?: string
+  }
+}
