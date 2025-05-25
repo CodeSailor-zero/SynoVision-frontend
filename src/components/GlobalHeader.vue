@@ -71,6 +71,11 @@ const originItems = ([
     title: '上传图片标签页面',
   },
   {
+    key: '/admin/picture/add/batch',
+    label: '批量上传图片页面',
+    title: '批量上传图片页面',
+  },
+  {
     key: '/admin/userManager',
     label: '用户管理页面',
     title: '用户管理页面',

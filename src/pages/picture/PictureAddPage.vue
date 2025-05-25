@@ -3,7 +3,17 @@
 <!--  就是登录状态丢失了-->
   <div id="PictureAddPage">
     <h2>{{ route.query?.id ? '修改图片' : '创建图片' }}</h2>
-    <PictureUpload :picture="picture" :onSuccess="onSuccess"/>
+    <!--选择上传方式-->
+    <a-tabs v-model:activeKey="uploadType">
+      <a-tab-pane key="file" tab="文件上传">
+        <PictureUpload :picture="picture" :onSuccess="onSuccess"/>
+      </a-tab-pane>
+      <a-tab-pane key="url" tab="URL 上传" force-render>
+        <UrlPictureUpload :picture="picture" :onSuccess="onSuccess"/>
+      </a-tab-pane>
+    </a-tabs>
+
+
     <a-form
       v-if="picture.id"
       name="PictureForm"
@@ -62,11 +72,14 @@ import {message} from "ant-design-vue";
 import {editPictureUsingPost, getPictureVoUsingGet, getTagCategoryUsingGet} from "@/api/pictureController";
 import {useRoute, useRouter} from "vue-router";
 import {useLoginStore} from "@/stores/userLoginUserStore";
+import UrlPictureUpload from "@/components/UrlPictureUpload.vue";
 
 const loginUserStore = useLoginStore();
 
 const picture = ref<API.PictureVo>({});
 const PictureForm = ref<API.PictureEditRequest>({})
+const uploadType = ref<'file' | 'url'>();
+
 const onSuccess = (newPicture: API.PictureVo) => {
   picture.value = newPicture;
   PictureForm.value.name = newPicture.name;

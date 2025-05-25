@@ -9,6 +9,7 @@ import PictureManagerPage from '@/pages/admin/PictureManagerPage.vue'
 import PictureDetailPage from '@/pages/picture/PictureDetailPage.vue'
 import TagManagerPage from '@/pages/admin/TagManagerPage.vue'
 import TagAddPage from '@/pages/tag/TagAddPage.vue'
+import AdminPictureAddPage from "@/pages/admin/AdminPictureAddPage.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,11 @@ const router = createRouter({
       path: '/picture/add',
       name: '上传图片页面',
       component: PictureAddPage,
+    },
+    {
+      path: '/admin/picture/add/batch',
+      name: '批量上传图片页面',
+      component: AdminPictureAddPage,
     },
     {
       path: '/admin/tag/add:id',

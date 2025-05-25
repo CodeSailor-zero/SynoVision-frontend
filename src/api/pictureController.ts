@@ -170,3 +170,33 @@ export async function uploadUsingPost(
     ...(options || {}),
   })
 }
+
+/** uploadByBatch POST /SynoVision/picture/upload/batch */
+export async function uploadByBatchUsingPost(
+  body: API.PictureUploadByBatchRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseInt_>('/SynoVision/picture/upload/batch', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
+/** uploadByUrl POST /SynoVision/picture/upload/url */
+export async function uploadByUrlUsingPost(
+  body: API.PictureUploadRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponsePictureVo_>('/SynoVision/picture/upload/url', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}

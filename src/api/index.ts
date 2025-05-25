@@ -7,7 +7,6 @@ import * as healthController from './healthController'
 import * as pictureController from './pictureController'
 import * as tagController from './tagController'
 import * as userController from './userController'
-
 export default {
   fileController,
   healthController,
