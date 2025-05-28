@@ -4,7 +4,7 @@
     <div class="desc">企业级智能协同云图库</div>
     <a-form
       :model="formState"
-      name="basic"
+      name="user"
       autocomplete="off"
       @finish="handleSubmit"
     >
@@ -36,7 +36,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import {userLoginUsingPost} from "@/api/userController";
 import {useLoginStore} from "@/stores/userLoginUserStore";
 import {useRouter} from "vue-router";
@@ -54,12 +54,11 @@ const handleSubmit = async () => {
   if (res.code == 0 && res.data) {
     message.success('登录成功');
     //跟新用户状态
-    await loginUserSore.fetchLoginUser();
+    await loginUserSore.setLoginUser(res.data);
     await router.replace('/');
   }else {
     message.error('登录失败' + res.message);
   }
-
 };
 
 </script>

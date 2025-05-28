@@ -3,7 +3,7 @@
     <a-flex justify="space-between">
       <h2>图片管理</h2>
       <a-space>
-        <a-button type="primary" href="/picture/add" target="_blank">+ 创建图片</a-button>
+        <a-button type="primary" @click="toAddPicture">+ 创建图片</a-button>
         <a-button type="primary" href="/picture/add/batch" target="_blank" ghost>+ 批量创建图片</a-button>
       </a-space>
     </a-flex>
@@ -102,7 +102,7 @@
             >
               拒绝
             </a-button>
-            <a-button type="primary" :href="`/picture/add?id=${record.id}`" target="_blank">编辑</a-button>
+            <a-button type="primary" @click="toEditPicture(record.id)">编辑</a-button>
             <a-button type="primary" danger @click="doDeletePicture(record.id)">删除</a-button>
           </a-space>
         </template>
@@ -117,6 +117,7 @@ import dayjs from "dayjs";
 import {deletePictureUsingPost, doPictureReviewUsingPost, listPictureUsingPost} from "@/api/pictureController";
 import {PIC_REVIEW_STATUS_ENUM, PIC_REVIEW_STATUS_MAP, PIC_REVIEW_STATUS_OPTIONS} from "../../constant/picture";
 import {convertBytes} from "@/util";
+import router from "@/router";
 
 const columns = [
   {
@@ -193,7 +194,8 @@ const pagination = computed(() => {
 
 const fetchData = async () => {
   const res = await listPictureUsingPost({
-    ...searchParams
+    ...searchParams,
+    nullSpaceId: true
   })
   if (res.code === 0 && res.data) {
     dataList.value = res.data.records ?? [];
@@ -246,6 +248,21 @@ const handelReview = async (picture: API.Picture,reviewStatus) => {
   } else {
     message.error('审核图片失败', res.message);
   }
+}
+
+const toEditPicture = (id) => {
+  router.push({
+    path: `/picture/add`,
+    query: {
+      id : id
+    }
+  })
+}
+
+const toAddPicture = () => {
+  router.push({
+    path: `/picture/add`
+  })
 }
 </script>
 

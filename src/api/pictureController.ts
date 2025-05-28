@@ -77,6 +77,14 @@ export async function listPictureUsingPost(
   })
 }
 
+/** getSpaceLevel GET /SynoVision/picture/list/level */
+export async function getSpaceLevelUsingGet(options?: { [key: string]: any }) {
+  return request<API.BaseResponseListSpaceLevel_>('/SynoVision/picture/list/level', {
+    method: 'GET',
+    ...(options || {}),
+  })
+}
+
 /** listPictureVo POST /SynoVision/picture/list/vo */
 export async function listPictureVoUsingPost(
   body: API.PictureQueryRequest,

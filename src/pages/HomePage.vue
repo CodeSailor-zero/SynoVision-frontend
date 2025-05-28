@@ -30,44 +30,52 @@
     </div>
 
 
-    <a-list
-      style="padding: 0"
-      :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 5 , xxl: 6}"
-      :data-source="pictureVoList"
-      :pagination="pagination"
-      :loading="loading"
-    >
-      <template #renderItem="{ item : picture }">
-        <a-list-item>
-          <a-card hoverable @click="doClickPicture(picture)">
-          <template #cover>
-            <img :alt="picture.name" :src="picture.thumbnailUrl ?? picture.url"
-                 style="height: 180px; object-fit: cover"
-            />
-          </template>
-          <a-card-meta :title="picture.name">
-            <template #description>
-              <a-flex>
-                <a-tag color="green">
-                  {{picture.category ?? '默认'}}
-                </a-tag>
-                <a-tag v-for="tag in picture.tags" :key="tag">
-                    {{ tag }}
-                </a-tag>
-              </a-flex>
-            </template>
-          </a-card-meta>
-          </a-card>
-        </a-list-item>
-      </template>
-    </a-list>
+<!--    <a-list-->
+<!--      style="padding: 0"-->
+<!--      :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 5 , xxl: 6}"-->
+<!--      :data-source="pictureVoList"-->
+<!--      :pagination="pagination"-->
+<!--      :loading="loading"-->
+<!--    >-->
+<!--      <template #renderItem="{ item : picture }">-->
+<!--        <a-list-item>-->
+<!--          <a-card hoverable @click="doClickPicture(picture)">-->
+<!--          <template #cover>-->
+<!--            <img :alt="picture.name" :src="picture.thumbnailUrl ?? picture.url"-->
+<!--                 style="height: 180px; object-fit: cover"-->
+<!--            />-->
+<!--          </template>-->
+<!--          <a-card-meta :title="picture.name">-->
+<!--            <template #description>-->
+<!--              <a-flex>-->
+<!--                <a-tag color="green">-->
+<!--                  {{picture.category ?? '默认'}}-->
+<!--                </a-tag>-->
+<!--                <a-tag v-for="tag in picture.tags" :key="tag">-->
+<!--                    {{ tag }}-->
+<!--                </a-tag>-->
+<!--              </a-flex>-->
+<!--            </template>-->
+<!--          </a-card-meta>-->
+<!--          </a-card>-->
+<!--        </a-list-item>-->
+<!--      </template>-->
+<!--    </a-list>-->
+    <PictureList :picture-vo-list="pictureVoList" :loading="loading"/>
+    <a-pagination
+      style="text-align: right"
+      v-model:current="searchParams.current"
+      v-model:pageSize="searchParams.pageSize"
+      :total="total"
+      @change="onChange"
+    />
   </div>
 </template>
 <script setup lang="ts">
-import {computed, onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import {getTagCategoryUsingGet, listPictureVoUsingPost} from "@/api/pictureController";
 import {message} from "ant-design-vue";
-import {useRouter} from "vue-router";
+import PictureList from "@/components/PictureList.vue";
 
 const pictureVoList = ref<API.PictureVo[]>([]);
 
@@ -80,18 +88,11 @@ const searchParams = reactive<API.PictureQueryRequest>({
   sortOrder: 'desc',
 })
 
-const pagination = computed(() => {
-  return {
-    current: searchParams.current,
-    pageSize: searchParams.pageSize,
-    total: total.value,
-    onChange: (page : number,pageSize : number) => {
-      searchParams.current = page
-      searchParams.pageSize = pageSize
-      fetchData();
-    }
-  }
-})
+const onChange = (page : number,pageSize : number) => {
+  searchParams.current = page
+  searchParams.pageSize = pageSize
+  fetchData();
+}
 
 const loading = ref(false);
 
@@ -149,12 +150,6 @@ onMounted(() => {
   getTagCategoryOptions();
 });
 
-const router = useRouter();
-const doClickPicture = (picture : API.PictureVo) => {
-  router.push({
-    path: `/picture/detail/${picture.id}`,
-  });
-}
 
 </script>
 <style scoped>

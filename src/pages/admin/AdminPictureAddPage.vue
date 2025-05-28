@@ -1,6 +1,4 @@
 <template>
-  <!--todo 图片修改还没有搞好，加上 http://localhost:5173/picture/add?id=xxxx。会直接跳转到登录页-->
-  <!--  就是登录状态丢失了-->
   <div id="AdminPictureAddPage">
     <h2 style="margin-bottom: 16px">创建图片</h2>
     <a-form

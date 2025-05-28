@@ -1,34 +1,51 @@
 <template>
-<div id="basicLayout">
-  <a-layout style="min-height: 100vh">
-    <a-layout-header class="header">
-      <GlobalHeader />
-    </a-layout-header>
-    <a-layout-content class="content">
-      <router-view />
-    </a-layout-content>
-    <a-layout-footer class="footer">
-      <a href="https://www.baidu.com">百度</a>
-    </a-layout-footer>
-  </a-layout>
-</div>
+  <div id="basicLayout">
+    <a-layout style="min-height: 100vh">
+      <a-layout-header class="header">
+        <GlobalHeader/>
+      </a-layout-header>
+      <a-layout>
+        <GlobalSider class="globalSider"/>
+        <a-layout-content class="content">
+          <router-view/>
+        </a-layout-content>
+      </a-layout>
+      <a-layout-footer class="footer">
+        <a href="https://www.baidu.com">百度</a>
+      </a-layout-footer>
+    </a-layout>
+  </div>
 </template>
 
 <script setup lang="ts">
-import GlobalHeader from "@/components/GlobalHeader.vue";</script>
+import GlobalHeader from "@/components/GlobalHeader.vue";
+import GlobalSider from "@/components/GlobalSider.vue";</script>
 
 <style scoped>
 #basicLayout .header {
   padding-inline: 20px;
   background: white;
   color: unset;
-  margin-bottom: 16px;
+  margin-bottom: 1px;
 }
+
+#basicLayout .globalSider{
+  padding-top: 20px;
+  background: #fff;
+  border-right: 0.5px solid #eee;
+}
+
+#basicLayout :deep(.ant-menu-root) {
+  border-bottom: none !important;
+  border-inline-end: none !important;
+}
+
 #basicLayout .content {
-  padding: 20px;
+  padding: 28px;
   background: linear-gradient(to right, #fefefe, #fff);
   margin-bottom: 28px;
 }
+
 #basicLayout .footer {
   background: #efefef;
   padding: 16px;

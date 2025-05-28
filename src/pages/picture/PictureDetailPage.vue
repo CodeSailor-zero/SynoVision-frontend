@@ -56,12 +56,12 @@ import {useLoginStore} from "@/stores/userLoginUserStore";
 import {useRouter} from "vue-router";
 
 interface Props {
-  id: string | number;
+  pictureId: string | number;
 }
 
 const props = defineProps<Props>();
 
-const id = props.id;
+const id = props.pictureId;
 const pictureVo = ref<API.PictureVo>({});
 const fetchPictureDetail = async () => {
   if (!id) {
@@ -104,16 +104,21 @@ const router = useRouter();
 const doEditPicture = () => {
   const id = pictureVo.value.id;
   router.replace({
-    path: '/picture/add?id=' + props.id
+    path: "/picture/add",
+    query: {
+      id: id,
+      spaceId: pictureVo.value.spaceId
+    }
   })
 }
 const doDeletePicture = async () => {
+  const id = pictureVo.value.id;
   if (!id) {
     message.error("操作错误");
     return;
   }
   const res = await deletePictureUsingPost({
-    id: props.id
+    id: id
   });
   if (res.code === 0) {
     message.success('删除图片成功');
@@ -126,7 +131,8 @@ const doDeletePicture = async () => {
 }
 
 const doDownload = () => {
-  downloadImage(pictureVo.value.url ?? '', pictureVo.value.name ?? '');
+  downloadImage(pictureVo.value.originalUrl ?? '', pictureVo.value.name ?? '');
+  console.log(pictureVo.value.originalUrl);
 }
 
 </script>

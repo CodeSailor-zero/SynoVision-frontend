@@ -5,12 +5,13 @@ import {useLoginStore} from '@/stores/userLoginUserStore'
 let firstFetchLoginUser = true
 
 router.beforeEach(async (to, from, next) => {
-  const loginUserStore = useLoginStore()
+  const loginUserStore = useLoginStore();
   let loginUser = loginUserStore.loginUser;
-  if (firstFetchLoginUser) {
+  if (!loginUser?.id) {
     await loginUserStore.fetchLoginUser()
     loginUser = loginUserStore.loginUser
     firstFetchLoginUser = false
+    console.log("进来了")
   }
   const toUrl = to.fullPath;
   if (toUrl.startsWith('/admin')) {
