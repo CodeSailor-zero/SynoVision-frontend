@@ -40,7 +40,7 @@ const handleUpload = async () => {
     if (res.code === 0 && res.data) {
       message.success('上传成功');
       //将上传的图片传递给父组件
-      props?.onSuccess(res.data);
+      props?.onSuccess?.(res.data);
     } else {
       message.error('上传失败');
     }
@@ -49,8 +49,6 @@ const handleUpload = async () => {
     message.error('上传失败', error.message);
   }
   loading.value = false;
-
-
 }
 </script>
 

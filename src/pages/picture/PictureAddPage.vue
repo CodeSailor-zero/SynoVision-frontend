@@ -16,6 +16,16 @@
       </a-tab-pane>
     </a-tabs>
 
+    <!-- 图片操作区域 -->
+    <div v-if="picture" class="edit-bar">
+      <a-flex justify="space-around">
+        <a-button :icon="h(EditOutlined)" @click="doEditPicture">编辑图片</a-button>
+        <a-button :icon="h(EditOutlined)" @click="doEOutPaintingPicture">扩图</a-button>
+      </a-flex>
+    </div>
+    <!-- 只有原始地址的图片可以操作 -->
+    <Image-cropper ref="imageCropperRef" :image-url="picture?.originalUrl" :picture="picture" :space-id="spaceId" :onSuccess="onCropPicture"/>
+    <ImageOutPainting ref="imageOutPaintingRef" :picture="picture" :space-id="spaceId" :onSuccess="onCropPicture"/>
 
     <a-form
       v-if="picture.id"
@@ -70,12 +80,15 @@
 </template>
 <script setup lang="ts">
 import PictureUpload from "@/components/PictureUpload.vue";
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref , h} from "vue";
 import {message} from "ant-design-vue";
 import {editPictureUsingPost, getPictureVoUsingGet, getTagCategoryUsingGet} from "@/api/pictureController";
 import {useRoute, useRouter} from "vue-router";
 import {useLoginStore} from "@/stores/userLoginUserStore";
 import UrlPictureUpload from "@/components/UrlPictureUpload.vue";
+import ImageCropper from "@/components/ImageCropper.vue";
+import { EditOutlined } from "@ant-design/icons-vue";
+import ImageOutPainting from "@/components/ImageOutPainting.vue";
 
 const loginUserStore = useLoginStore();
 
@@ -161,10 +174,30 @@ onMounted(() => {
   getOldPictureVo();
 });
 
+//图片编辑器弹窗
+const imageCropperRef = ref();
+const doEditPicture = async () => {
+  imageCropperRef.value?.openModel();
+}
+
+//图片扩图弹窗
+const imageOutPaintingRef = ref();
+const doEOutPaintingPicture = async () => {
+  imageOutPaintingRef.value?.openModel();
+}
+
+const onCropPicture = (newPicture :  API.PictureVo) => {
+  picture.value = newPicture;
+}
+
 </script>
 <style scoped>
 #PictureAddPage {
   max-width: 720px;
   margin: 0 auto;
+}
+#PictureAddPage .edit-bar {
+  text-align: center;
+  margin: 16px auto;
 }
 </style>

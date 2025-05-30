@@ -100,6 +100,42 @@ export async function listPictureVoUsingPost(
   })
 }
 
+/** createOutPaintingTask POST /SynoVision/picture/out_painting/create_task */
+export async function createOutPaintingTaskUsingPost(
+  body: API.CreatePictureOutPaintingTaskRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseCreateOutPaintingTaskResponse_>(
+    '/SynoVision/picture/out_painting/create_task',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: body,
+      ...(options || {}),
+    }
+  )
+}
+
+/** getOutPaintingTask GET /SynoVision/picture/out_painting/get_task */
+export async function getOutPaintingTaskUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getOutPaintingTaskUsingGETParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseGetOutPaintingTaskResponse_>(
+    '/SynoVision/picture/out_painting/get_task',
+    {
+      method: 'GET',
+      params: {
+        ...params,
+      },
+      ...(options || {}),
+    }
+  )
+}
+
 /** doPictureReview POST /SynoVision/picture/review */
 export async function doPictureReviewUsingPost(
   body: API.PictureReviewRequest,

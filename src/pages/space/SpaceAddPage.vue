@@ -1,6 +1,4 @@
 <template>
-  <!--todo 图片修改还没有搞好，加上 http://localhost:5173/space/add?id=xxxx。会直接跳转到登录页-->
-  <!--  就是登录状态丢失了-->
   <div id="SpaceAddPage">
     <h2>{{ route.query?.id ? '修改空间' : '创建空间' }}</h2>
     <a-form

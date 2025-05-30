@@ -71,9 +71,6 @@ const handleUpload = async ({ file } : any) => {
     message.error('上传失败',error.message);
   }
   loading.value = false;
-
-
-
 }
 </script>
 
