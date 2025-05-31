@@ -4,6 +4,8 @@
       <h2>空间管理</h2>
       <a-space>
         <a-button type="primary" href="/space/add" target="_blank">+ 创建空间</a-button>
+        <a-button type="primary" ghost @click="toAnalyzePublic">分析公共图库</a-button>
+        <a-button type="primary" ghost @click="toAnalyzeAll">分析全部空间</a-button>
       </a-space>
     </a-flex>
     <div style="margin-bottom: 16px"/>
@@ -69,6 +71,7 @@
         </template>
         <template v-else-if="column.key === 'action'">
           <a-space wrap>
+            <a-button type="default" @click="toAnalyzeSpace(record.id)">分析</a-button>
             <a-button type="primary" ghost @click="toEditSpace(record.id)">编辑</a-button>
             <a-button type="primary" danger @click="doDeleteSpace(record.id)">删除</a-button>
           </a-space>
@@ -197,7 +200,34 @@ const doDeleteSpace = async (id: number) => {
 }
 const toEditSpace = (id) => {
   router.push({
-    path: `/space/add/${id}`
+    path: `/space/add/${id}`,
+  })
+}
+
+const toAnalyzePublic = () => {
+  router.push({
+    path: "/space/analyze",
+    query: {
+      queryPublic: 1
+    }
+  })
+}
+
+const toAnalyzeSpace = (spaceId : string) => {
+  router.push({
+    path: "/space/analyze",
+    query: {
+      spaceId: spaceId
+    }
+  })
+}
+
+const toAnalyzeAll = () => {
+  router.push({
+    path: "/space/analyze",
+    query: {
+      queryAll: 1
+    }
   })
 }
 </script>

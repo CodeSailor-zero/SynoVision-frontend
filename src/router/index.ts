@@ -9,11 +9,12 @@ import PictureManagerPage from '@/pages/admin/PictureManagerPage.vue'
 import PictureDetailPage from '@/pages/picture/PictureDetailPage.vue'
 import TagManagerPage from '@/pages/admin/TagManagerPage.vue'
 import TagAddPage from '@/pages/tag/TagAddPage.vue'
-import AdminPictureAddPage from "@/pages/admin/AdminPictureAddPage.vue";
-import SpaceManagerPage from "@/pages/admin/SpaceManagerPage.vue";
-import SpaceAddPage from "@/pages/space/SpaceAddPage.vue";
-import SpaceMyPage from "@/pages/space/SpaceMyPage.vue";
-import SpaceDetailPage from "@/pages/space/SpaceDetailPage.vue";
+import AdminPictureAddPage from '@/pages/admin/AdminPictureAddPage.vue'
+import SpaceManagerPage from '@/pages/admin/SpaceManagerPage.vue'
+import SpaceAddPage from '@/pages/space/SpaceAddPage.vue'
+import SpaceMyPage from '@/pages/space/SpaceMyPage.vue'
+import SpaceDetailPage from '@/pages/space/SpaceDetailPage.vue'
+import SpaceAnalyzePage from '@/pages/analyze/SpaceAnalyzePage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -92,9 +93,14 @@ const router = createRouter({
     },
     {
       path: '/space/detail/:id',
-      name: "空间详细页面",
+      name: '空间详细页面',
       props: true,
       component: SpaceDetailPage,
+    },
+    {
+      path: '/space/analyze',
+      name: '空间分析页面',
+      component: SpaceAnalyzePage,
     },
     {
       path: '/about',

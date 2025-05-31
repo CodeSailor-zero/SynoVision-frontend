@@ -44,7 +44,7 @@
 </template>
 <script setup lang="ts">
 import {useRouter} from "vue-router";
-import {EditOutlined, DeleteOutlined} from "@ant-design/icons-vue";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons-vue";
 import {message} from "ant-design-vue";
 import {deletePictureUsingPost} from "@/api/pictureController";
 

@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {message} from "ant-design-vue";
-import {addSpaceUsingPost, editSpaceUsingPost, getSpaceUsingGet, getSpaceVoUsingGet} from "@/api/spaceController";
+import {addSpaceUsingPost, editSpaceUsingPost, getSpaceVoUsingGet} from "@/api/spaceController";
 import {useRoute, useRouter} from "vue-router";
 import {SPACE_LEVEL_OPTIONS} from "@/constant/space";
 import {getSpaceLevelUsingGet} from "@/api/pictureController";

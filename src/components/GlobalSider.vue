@@ -17,7 +17,7 @@
 </template>
 <script setup lang="ts">
 import {h, ref} from "vue";
-import {PictureOutlined,UserOutlined} from "@ant-design/icons-vue";
+import {PictureOutlined, UserOutlined} from "@ant-design/icons-vue";
 import {useLoginStore} from "@/stores/userLoginUserStore";
 import {useRouter} from "vue-router";
 

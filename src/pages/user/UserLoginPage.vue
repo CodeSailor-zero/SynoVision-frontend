@@ -36,7 +36,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
+import {ref} from 'vue';
 import {userLoginUsingPost} from "@/api/userController";
 import {useLoginStore} from "@/stores/userLoginUserStore";
 import {useRouter} from "vue-router";

@@ -3,8 +3,9 @@
     <!-- 空间信息 -->
     <a-flex justify="space-between">
       <h2>{{ spaceVo.spaceName }}（私有空间）</h2>
-      <a-space>
+      <a-space size="middle">
         <a-button type="primary" @click="toAddPicture">+ 创建图片</a-button>
+        <a-button type="primary" ghost :icon="h(BarChartOutlined)" @click="toAnalyzeSpace">分析空间</a-button>
 <!--        <a-tooltip-->
 <!--          :title="`占用空间:${ convertBytes(spaceVo.totalSize) } / ${ convertBytes(spaceVo.maxSize) }`"-->
 <!--        >-->
@@ -28,13 +29,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import {defineProps} from 'vue';
+import {defineProps, h, onMounted, reactive, ref} from 'vue';
 import {message} from "ant-design-vue";
 import {listPictureVoUsingPost} from "@/api/pictureController";
-import {onMounted, reactive, ref} from "vue";
 import {getSpaceVoUsingGet} from "@/api/spaceController";
 import PictureList from "@/components/PictureList.vue";
 import router from "@/router";
+import {BarChartOutlined} from "@ant-design/icons-vue";
 
 interface Props {
   id: string | number;
@@ -110,6 +111,16 @@ const toAddPicture = () => {
       spaceId: props.id
     }
   })
+}
+
+const toAnalyzeSpace = () => {
+  router.push({
+    path: `/space/analyze`,
+    query: {
+      spaceId: props.id
+    }
+  })
+
 }
 </script>
 <style scoped>

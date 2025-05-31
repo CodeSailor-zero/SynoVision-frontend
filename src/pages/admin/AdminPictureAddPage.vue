@@ -47,9 +47,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {message} from "ant-design-vue";
-import {
-  uploadByBatchUsingPost
-} from "@/api/pictureController";
+import {uploadByBatchUsingPost} from "@/api/pictureController";
 import {useRouter} from "vue-router";
 
 

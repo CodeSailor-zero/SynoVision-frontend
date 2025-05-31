@@ -80,14 +80,14 @@
 </template>
 <script setup lang="ts">
 import PictureUpload from "@/components/PictureUpload.vue";
-import {computed, onMounted, ref , h} from "vue";
+import {computed, h, onMounted, ref} from "vue";
 import {message} from "ant-design-vue";
 import {editPictureUsingPost, getPictureVoUsingGet, getTagCategoryUsingGet} from "@/api/pictureController";
 import {useRoute, useRouter} from "vue-router";
 import {useLoginStore} from "@/stores/userLoginUserStore";
 import UrlPictureUpload from "@/components/UrlPictureUpload.vue";
 import ImageCropper from "@/components/ImageCropper.vue";
-import { EditOutlined } from "@ant-design/icons-vue";
+import {EditOutlined} from "@ant-design/icons-vue";
 import ImageOutPainting from "@/components/ImageOutPainting.vue";
 
 const loginUserStore = useLoginStore();
