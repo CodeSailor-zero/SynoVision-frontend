@@ -72,11 +72,6 @@ const originItems = ([
     title: '上传图片',
   },
   {
-    key: '/space/add',
-    label: '空间创建',
-    title: '空间创建',
-  },
-  {
     key: '/admin/tag/add',
     label: '上传图片标签',
     title: '上传图片标签',

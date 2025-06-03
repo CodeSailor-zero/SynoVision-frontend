@@ -10,6 +10,7 @@ import {useLoginStore} from "@/stores/userLoginUserStore";
 import {listSpaceVoUsingPost} from "@/api/spaceController";
 import {message} from "ant-design-vue";
 import {onMounted} from "vue";
+import {SPACE_TYPE_ENUM} from "@/constant/space";
 
 const router = useRouter();
 const userLoginStore = useLoginStore();
@@ -24,18 +25,19 @@ const checkUserSpace = async () => {
     });
     return;
   }
-  //2.判断用户是否拥有空间，没有则跳转到创建空间页面
+  //2.判断用户是否拥有空间，没有则跳转到创建空间页面，只能查询私人空间
   const res = await listSpaceVoUsingPost({
     userId: loginUser.id,
     current: 1,
-    pageSize: 1
+    pageSize: 1,
+    spaceType: SPACE_TYPE_ENUM.PRIVATE
   });
   if (res.code === 0) {
     if (res.data.records?.length > 0) {
       const space = res.data.records[0];
       //有空间，跳转到详细页
       await router.replace({
-        path: `/space/detail/${space.id}`
+        path: `/space/detail/${space.id}?type=${SPACE_TYPE_ENUM.PRIVATE}`
       });
     }else {
       //没有空间，跳转到创建空间页面

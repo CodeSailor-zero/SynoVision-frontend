@@ -41,6 +41,12 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseListSpaceMemberVo_ = {
+    code?: number
+    data?: SpaceMemberVo[]
+    message?: string
+  }
+
   type BaseResponseListSpaceSizeAnalyzeResponse_ = {
     code?: number
     data?: SpaceSizeAnalyzeResponse[]
@@ -128,6 +134,12 @@ declare namespace API {
   type BaseResponseSpace_ = {
     code?: number
     data?: Space
+    message?: string
+  }
+
+  type BaseResponseSpaceMember_ = {
+    code?: number
+    data?: SpaceMember
     message?: string
   }
 
@@ -413,6 +425,7 @@ declare namespace API {
     introduction?: string
     name?: string
     originalUrl?: string
+    parmissionList?: string[]
     picFormat?: string
     picHeight?: number
     picSize?: number
@@ -435,6 +448,7 @@ declare namespace API {
     maxSize?: number
     spaceLevel?: number
     spaceName?: string
+    spaceType?: number
     totalCount?: number
     totalSize?: number
     updateTime?: string
@@ -444,6 +458,7 @@ declare namespace API {
   type SpaceAddRequest = {
     spaceLevel?: number
     spaceName?: string
+    spaceType?: number
   }
 
   type SpaceAnalyzeRequest = {
@@ -476,6 +491,45 @@ declare namespace API {
     value?: number
   }
 
+  type SpaceMember = {
+    createTime?: string
+    id?: number
+    spaceId?: number
+    spaceUserRole?: string
+    updateTime?: string
+    userId?: number
+  }
+
+  type SpaceMemberAddRequest = {
+    spaceId?: number
+    spaceRole?: string
+    userId?: number
+  }
+
+  type SpaceMemberEditRequest = {
+    id?: number
+    spaceId?: number
+    spaceUserRole?: string
+  }
+
+  type SpaceMemberQueryRequest = {
+    id?: number
+    spaceId?: number
+    spaceUserRole?: string
+    userId?: number
+  }
+
+  type SpaceMemberVo = {
+    createTime?: string
+    id?: number
+    spaceId?: number
+    spaceUserRole?: string
+    spaceVo?: SpaceVo
+    updateTime?: string
+    userId?: number
+    userVo?: UserVo
+  }
+
   type SpaceQueryRequest = {
     current?: number
     id?: number
@@ -485,10 +539,12 @@ declare namespace API {
     sortOrder?: string
     spaceLevel?: number
     spaceName?: string
+    spaceType?: number
     userId?: number
   }
 
   type SpaceRankAnalyzeRequest = {
+    spaceId?: number
     topNum?: number
   }
 
@@ -550,8 +606,10 @@ declare namespace API {
     id?: number
     maxCount?: number
     maxSize?: number
+    parmissionList?: string[]
     spaceLevel?: number
     spaceName?: string
+    spaceType?: number
     totalCount?: number
     totalSize?: number
     updateTime?: string

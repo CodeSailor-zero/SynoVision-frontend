@@ -17,6 +17,21 @@ export async function deletePictureUsingPost(
   })
 }
 
+/** deletePictureByAdmin POST /SynoVision/picture/delete/admin */
+export async function deletePictureByAdminUsingPost(
+  body: API.DeleteRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseBoolean_>('/SynoVision/picture/delete/admin', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
 /** editPicture POST /SynoVision/picture/edit */
 export async function editPictureUsingPost(
   body: API.PictureEditRequest,

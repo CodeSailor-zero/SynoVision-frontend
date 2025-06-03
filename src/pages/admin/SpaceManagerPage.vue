@@ -49,7 +49,15 @@
           {{ record.userName }}
         </template>
         <template v-else-if="column.key === 'spaceLevel'">
-          空间级别：{{ SPACE_LEVEL_MAP[record.spaceLevel] }}
+          {{ SPACE_LEVEL_MAP[record.spaceLevel] }}
+        </template>
+        <template v-else-if="column.key === 'spaceType'">
+          <a-tag v-if="record.spaceType === 0" color="green">
+            {{ SPACE_TYPE_MAP[record.spaceType] }}
+          </a-tag>
+          <a-tag v-else color="purple">
+            {{ SPACE_TYPE_MAP[record.spaceType] }}
+          </a-tag>
         </template>
         <template v-else-if="column.key === 'spaceInfo'">
           <a-space wrap>
@@ -84,7 +92,7 @@
 import {computed, onMounted, reactive, ref} from "vue";
 import {message} from "ant-design-vue";
 import {deleteSpaceUsingPost, listSpaceUsingPost} from "@/api/spaceController";
-import {SPACE_LEVEL_MAP, SPACE_LEVEL_OPTIONS} from "@/constant/space";
+import {SPACE_LEVEL_MAP, SPACE_LEVEL_OPTIONS, SPACE_TYPE_MAP} from "@/constant/space";
 import dayjs from "dayjs";
 import {convertBytes} from "@/util";
 import router from "@/router";
@@ -94,42 +102,55 @@ const columns = [
     title: 'id',
     dataIndex: 'id',
     key: 'id',
-    width: 80,
+    width: 10,
   },
   {
     title: '空间名',
     dataIndex: 'spaceName',
     key: 'spaceName',
+    width: 100,
   },
   {
     title: '空间等级',
     dataIndex: 'spaceLevel',
     key: 'spaceLevel',
+    width: 100,
+  },
+  {
+    title: '空间类型',
+    dataIndex: 'spaceType',
+    key: 'spaceType',
+    width: 100,
   },
   {
     title: '空间信息',
     key: 'spaceInfo',
     dataIndex: 'spaceInfo',
+    width: 100,
   },
   {
     title: '创建用户id',
     key: 'userId',
     dataIndex: 'userId',
+    width: 100,
   },
   {
     title: '创建时间',
     key: 'createTime',
     dataIndex: 'createTime',
+    width: 100,
   },
   {
     title: '编辑时间',
     key: 'editTime',
     dataIndex: 'editTime',
+    width: 100,
   },
   {
     title: '更新时间',
     key: 'updateTime',
     dataIndex: 'updateTime',
+    width: 100,
   },
   {
     title: '操作',

@@ -27,11 +27,11 @@
               </template>
             </a-card-meta>
             <template #actions v-if="showOP">
-              <a-space   @click="(e) => doEdit(picture,e)">
+              <a-space v-if="props.canEditPicture" @click="(e) => doEdit(picture,e)">
                 <EditOutlined/>
                 编辑
               </a-space>
-              <a-space @click="(e) => doDelete(picture,e)">
+              <a-space v-if="props.canDeletePicture" @click="(e) => doDelete(picture,e)">
                 <DeleteOutlined/>
                 删除
               </a-space>
@@ -52,13 +52,17 @@ interface pictureProps {
   pictureVoList?: API.PictureVo[];
   loading: boolean
   showOP: boolean,
-  onReload: () => void
+  onReload: () => void,
+  canEditPicture: boolean,
+  canDeletePicture: boolean
 }
 
 const props = withDefaults(defineProps<pictureProps>(), {
   pictureVoList: () => [],
   loading: false,
-  showOP: false
+  showOP: false,
+  canEditPicture: false,
+  canDeletePicture: false,
 });
 
 const router = useRouter();

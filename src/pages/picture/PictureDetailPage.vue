@@ -38,7 +38,7 @@
              </template>
            </a-button>
             <a-button v-if="canEditPicture" type="default" :icon="h(EditOutlined)" @click="doEditPicture">编辑</a-button>
-            <a-button v-if="canEditPicture" type="default" danger :icon="h(DeleteOutlined)" @click="doDeletePicture">删除</a-button>
+            <a-button v-if="canDeletePicture" type="default" danger :icon="h(DeleteOutlined)" @click="doDeletePicture">删除</a-button>
           </a-space>
         </a-card>
       </a-col>
@@ -52,8 +52,8 @@ import {message} from "ant-design-vue";
 import {DeleteOutlined, DownloadOutlined, EditOutlined} from "@ant-design/icons-vue";
 import dayjs from "dayjs";
 import {convertBytes, downloadImage} from "@/util";
-import {useLoginStore} from "@/stores/userLoginUserStore";
 import {useRouter} from "vue-router";
+import {SPACE_PERMISSION_ENUM} from "@/constant/space";
 
 interface Props {
   pictureId: string | number;
@@ -87,17 +87,16 @@ onMounted(() => {
   fetchPictureDetail();
 });
 
+// 通用权限检查函数
+function createPermissionChecker(permission: string) {
+  return computed(() => {
+    return (pictureVo.value.parmissionList ?? []).includes(permission)
+  })
+}
 
-const canEditPicture = computed(() => {
-    const loginUser = useLoginStore().loginUser;
-    if (!loginUser.id) {
-      return false;
-    }
-    if (loginUser.id != pictureVo.value.userId || loginUser.userRole != 'admin') {
-      return false;
-    }
-    return true;
-});
+// 定义权限检查
+const canEditPicture = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_EDIT)
+const canDeletePicture = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_DELETE)
 
 const router = useRouter();
 

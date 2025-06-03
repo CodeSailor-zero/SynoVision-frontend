@@ -2,22 +2,23 @@
   <div id="SpaceDetailPage">
     <!-- 空间信息 -->
     <a-flex justify="space-between">
-      <h2>{{ spaceVo.spaceName }}（私有空间）</h2>
+      <h2>{{ SPACE_TYPE_MAP[spaceVo.spaceType] }} : {{ spaceVo.spaceName }}</h2>
       <a-space size="middle">
-        <a-button type="primary" @click="toAddPicture">+ 创建图片</a-button>
-        <a-button type="primary" ghost :icon="h(BarChartOutlined)" @click="toAnalyzeSpace">分析空间</a-button>
-<!--        <a-tooltip-->
-<!--          :title="`占用空间:${ convertBytes(spaceVo.totalSize) } / ${ convertBytes(spaceVo.maxSize) }`"-->
-<!--        >-->
-<!--          <a-progress-->
-<!--            :percent="( spaceVo.totalSize * 100 / spaceVo.maxSize).toFixed(1)"-->
-<!--          />-->
-<!--        </a-tooltip>-->
+        <a-button v-if="canManager" type="primary" @click="toSpaceMemberManager">空间成员管理</a-button>
+        <a-button v-if="canUploadPicture" type="primary" @click="toAddPicture">+ 创建图片</a-button>
+        <a-button v-if="canManager" type="primary" ghost :icon="h(BarChartOutlined)" @click="toAnalyzeSpace">分析空间</a-button>
       </a-space>
     </a-flex>
     <div style="margin-bottom: 16px"/>
     <!-- 图片列表区 -->
-    <PictureList :picture-vo-list="pictureVoList" :loading="loading" :show-o-p="true" :onReload="getPictureVoList"/>
+    <PictureList
+      :picture-vo-list="pictureVoList"
+      :loading="loading"
+      :show-o-p="true"
+      :onReload="getPictureVoList"
+      :canEdit="canEditPicture"
+      :canDelete="canDeletePicture"
+    />
     <a-pagination
       style="text-align: right"
       v-model:current="searchParams.current"
@@ -29,13 +30,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import {defineProps, h, onMounted, reactive, ref} from 'vue';
+import {computed, defineProps, h, reactive, ref, watch, watchEffect} from 'vue';
 import {message} from "ant-design-vue";
 import {listPictureVoUsingPost} from "@/api/pictureController";
 import {getSpaceVoUsingGet} from "@/api/spaceController";
 import PictureList from "@/components/PictureList.vue";
 import router from "@/router";
 import {BarChartOutlined} from "@ant-design/icons-vue";
+import {SPACE_PERMISSION_ENUM, SPACE_TYPE_MAP} from "@/constant/space";
 
 interface Props {
   id: string | number;
@@ -43,18 +45,16 @@ interface Props {
 
 const props = defineProps<Props>();
 
-
 // 获取空间信息
-const id = props.id;
 const spaceVo = ref<API.SpaceVo>({});
-const fetchPictureDetail = async () => {
-  if (!id) {
+const fetchSpaceDetail = async () => {
+  if (!props.id) {
     message.error('空间不存在');
     return;
   }
   try {
     const res = await getSpaceVoUsingGet({
-      id: id
+      id: props.id
     });
     if (res.code == 0 && res.data) {
       spaceVo.value = res.data;
@@ -79,7 +79,7 @@ const total = ref(0);
 const getPictureVoList = async () => {
 
   const params = {
-    spaceId: id,
+    spaceId: props.id,
     ...searchParams
 
   }
@@ -93,16 +93,30 @@ const getPictureVoList = async () => {
   }
 }
 
+// 通用权限检查函数
+function createPermissionChecker(permission: string) {
+  return computed(() => {
+    return (spaceVo.value.parmissionList ?? []).includes(permission)
+  })
+}
+
+// 定义权限检查
+const canManager = createPermissionChecker(SPACE_PERMISSION_ENUM.SPACE_USER_MANAGE)
+const canUploadPicture = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_UPLOAD)
+const canEditPicture = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_EDIT)
+const canDeletePicture = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_DELETE)
+
 const onChange = (page: number, pageSize: number) => {
   searchParams.current = page
   searchParams.pageSize = pageSize
   getPictureVoList();
 }
 
-onMounted(() => {
-  fetchPictureDetail();
+watchEffect(() => {
+  fetchSpaceDetail();
   getPictureVoList();
-});
+})
+
 
 const toAddPicture = () => {
   router.push({
@@ -120,7 +134,12 @@ const toAnalyzeSpace = () => {
       spaceId: props.id
     }
   })
+}
 
+const toSpaceMemberManager = () => {
+  router.push({
+    path: `/admin/space/member/manager/${props.id}`,
+  })
 }
 </script>
 <style scoped>
