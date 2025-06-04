@@ -24,7 +24,13 @@
       </a-flex>
     </div>
     <!-- 只有原始地址的图片可以操作 -->
-    <Image-cropper ref="imageCropperRef" :image-url="picture?.originalUrl" :picture="picture" :space-id="spaceId" :onSuccess="onCropPicture"/>
+    <Image-cropper
+      ref="imageCropperRef"
+      :image-url="picture?.originalUrl"
+      :picture="picture"
+      :space-id="spaceId"
+      :space="space"
+      :onSuccess="onCropPicture"/>
     <ImageOutPainting ref="imageOutPaintingRef" :picture="picture" :space-id="spaceId" :onSuccess="onCropPicture"/>
 
     <a-form
@@ -89,6 +95,7 @@ import UrlPictureUpload from "@/components/UrlPictureUpload.vue";
 import ImageCropper from "@/components/ImageCropper.vue";
 import {EditOutlined} from "@ant-design/icons-vue";
 import ImageOutPainting from "@/components/ImageOutPainting.vue";
+import {getSpaceVoUsingGet} from "@/api/spaceController";
 
 const loginUserStore = useLoginStore();
 
@@ -151,7 +158,7 @@ const getTagCategoryOptions = async () => {
   }
 };
 
-
+// 获取图片详情
 const id = route.query?.id;
 const getOldPictureVo = async () => {
   if (id) {
@@ -169,9 +176,23 @@ const getOldPictureVo = async () => {
   }
 }
 
+//获取space的信息
+const space = ref<API.SpaceVo>({});
+const getOldSpaceVo = async () => {
+  if (spaceId.value) {
+    const res = await getSpaceVoUsingGet({
+      id: spaceId.value
+    });
+    if (res.code == 0 && res.data) {
+      space.value = res.data;
+    }
+  }
+}
+
 onMounted(() => {
   getTagCategoryOptions();
   getOldPictureVo();
+  getOldSpaceVo();
 });
 
 //图片编辑器弹窗
