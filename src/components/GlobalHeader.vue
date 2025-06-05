@@ -2,13 +2,14 @@
   <div id="globalHeader">
     <a-row :wrap="false">
       <a-col flex="200px">
-        <div class="title">图库</div>
-        <!--        <router-link to="/">-->
-        <!--          <div class="title-bar">-->
-        <!--            &lt;!&ndash;        <img class="logo" src="../assets/logo.svg" alt="logo" />&ndash;&gt;-->
-        <!--           -->
-        <!--          </div>-->
-        <!--        </router-link>-->
+        <a-space :size="2">
+          <router-link to="/">
+            <div class="title-bar">
+              <img class="logo" src="../../public/favicon.ico" alt="logo"/>
+            </div>
+          </router-link>
+          <div class="title">SynoVision图库</div>
+        </a-space>
       </a-col>
       <a-col flex="auto">
         <a-menu v-model:selectedKeys="current" mode="horizontal" :items="items" @click="doMeumCilck"/>
@@ -161,9 +162,10 @@ const doUserLoginOut = async () => {
 }
 
 .logo {
-  height: 48px;
+  height: 30px;
 
 }
+
 .user-name {
   display: inline-block;
   max-width: 100px;

@@ -25,10 +25,10 @@
       <div class="ImageCropperOptions">
           <!-- 图片操作区域 -->
         <a-flex justify="space-around" gap="middle">
-          <a-button :disabled="!canEditPic" @click="rotateLeft">向左旋转</a-button>
-          <a-button :disabled="!canEditPic" @click="rotateRight">向右旋转</a-button>
-          <a-button :disabled="!canEditPic" @click="changeScale(1)">放大</a-button>
-          <a-button :disabled="!canEditPic" @click="changeScale(-1)">缩小</a-button>
+          <a-button :disabled="canEditPic" @click="rotateLeft">向左旋转</a-button>
+          <a-button :disabled="canEditPic" @click="rotateRight">向右旋转</a-button>
+          <a-button :disabled="canEditPic" @click="changeScale(1)">放大</a-button>
+          <a-button :disabled="canEditPic" @click="changeScale(-1)">缩小</a-button>
           <a-button type="primary" :disabled="!canEditPic" :loading="loading" @click="handelConfirm">确认</a-button>
         </a-flex>
       </div>
@@ -124,6 +124,7 @@ const closeModel = () => {
   if (webSocket) {
     webSocket?.closeconnect();
   }
+  manualClose.value = false;
   editingUser.value = undefined;
 }
 
@@ -135,6 +136,7 @@ defineExpose({
 //----------------- 协作区域 -----------------
 const loginuserStore = useLoginStore();
 const loginuser = loginuserStore.loginUser;
+const manualClose = ref(false); //  是否重连 webscoket ,true为重连，false为不重连
 //判断当前空间是否为团队空间
 const isTeamSpace = computed(() => {
   return props.space?.spaceType  === SPACE_TYPE_ENUM.TEAM
@@ -175,7 +177,7 @@ const initWebSocket = () => {
     webSocket.closeconnect();
   }
   // 创建 webSocket 实例
-  webSocket = new PictureEditWs(pictureId);
+  webSocket = new PictureEditWs(pictureId,manualClose.value);
   // webSocket 创建连接
   webSocket.connect();
   // 监听事件
@@ -201,7 +203,7 @@ const initWebSocket = () => {
   webSocket.on(PICTURE_EDIT_MESSAGE_TYPE_ENUM.EDIT_ACTION, (msg: any) => {
     console.log('收到图片执行编辑操作通知', msg)
     message.info(msg.message)
-    switch (msg.action) {
+    switch (msg.editAction) {
       case PICTURE_EDIT_ACTION_ENUM.ROTATE_LEFT:
         rotateLeft();
         break;
@@ -239,6 +241,7 @@ onUnmounted(() => {
   if (webSocket) {
     webSocket?.closeconnect();
   }
+  manualClose.value = false;
   editingUser.value = undefined;
 })
 
